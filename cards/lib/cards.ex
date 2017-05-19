@@ -1,5 +1,9 @@
 defmodule Cards do
-  def createDeck do
+  @moduledoc """
+    Provides methods for create and handle dock
+  """
+
+  def create_deck do
     values = ["Ace", "two", "three", "four", "five"]
     suits = ["Spades", "Clubs", "Hearts", "Diamonds"]
 
@@ -8,33 +12,62 @@ defmodule Cards do
     end
   end
 
-  def shuffleDeck(deck) do
+  def shuffle_deck(deck) do
     Enum.shuffle(deck)
   end
 
+
+  @doc """
+    Determines whether the deck contains the card
+
+  ## Examples
+
+      iex> deck = Cards.create_deck
+      iex> Cards.contains?(deck, "Ace of Spades")
+      true
+
+  """
   def contains?(deck, card) do
     Enum.member?(deck, card)
   end
 
-  def deal(deck, handSize) do
-    Enum.split(deck, handSize)
+  @doc """
+    Provides function to create a hand deck of cards
+
+  ## Examples
+
+      iex> deck = Cards.create_deck
+      iex> {hand, _rest_of_deck} = Cards.deal(deck, 1)
+      iex> hand
+      ["Ace of Spades"]
+
+  """
+  def deal(deck, hand_size) do
+    Enum.split(deck, hand_size)
   end
 
-  def showHandDeck(splitedDeck) do
-    { handDeck, restOfDeck } = splitedDeck
-    handDeck
+  def create_hand_deck(splited_deck) do
+    { hand_deck, rest_of_deck } = splited_deck
+    hand_deck
   end
 
-  def save(deck, fileName) do
+  def save(deck, filename) do
     binary = :erlang.term_to_binary(deck)
-    File.write(fileName, binary)
+    File.write(filename, binary)
   end
 
-  def load(fileName) do
-    case File.read(fileName) do
+  def load(filename) do
+    case File.read(filename) do
       { :ok, binary } -> :erlang.binary_to_term binary
       { :error, _reason } -> "that file is not exist"
     end
+  end
+
+  def create_hand(hand_size) do
+    Cards.create_deck
+    |> Cards.shuffle_deck
+    |> Cards.deal(hand_size)
+    |> Cards.create_hand_deck()
   end
 
   def test do
