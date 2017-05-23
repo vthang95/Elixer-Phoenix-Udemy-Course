@@ -41,5 +41,4 @@ config :discuss, Discuss.Repo,
   password: "vthang95",
   database: "discuss_dev",
   hostname: "localhost",
-  # port: 5432,
   pool_size: 10

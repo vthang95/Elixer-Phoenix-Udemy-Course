@@ -51,8 +51,7 @@ defmodule Identicon do
     %Identicon.Image{ image | grid: coloring_grid }
   end
 
-  def build_grid(image) do
-    %Identicon.Image{hex: number_list} = image
+  def build_grid(%Identicon.Image{hex: number_list} = image) do
     grid =
       number_list
       |> Enum.chunk(3)
@@ -64,6 +63,7 @@ defmodule Identicon do
   end
 
   @doc """
+    Manipulate a list of numbers
 
   ## Examples
 
